@@ -61,7 +61,7 @@ class AntCollisionGame {
 
     antElement.style.transform = transform;
 
-    antElement.addEventListener("click", () => {
+    antElement.addEventListener("mousedown", () => {
       let reaminingAnts = antInstances.filter((ant) => {
         return ant.id !== this.id;
       });
@@ -147,7 +147,7 @@ class AntCollisionGame {
     this.drawAnt(this.x, this.y);
     this.timer = setInterval(() => {
       this.moveAnt();
-    }, 100);
+    }, 10);
   };
 }
 
