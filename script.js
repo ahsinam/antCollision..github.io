@@ -147,7 +147,7 @@ class AntCollisionGame {
     this.drawAnt(this.x, this.y);
     this.timer = setInterval(() => {
       this.moveAnt();
-    }, 10);
+    }, 100);
   };
 }
 
