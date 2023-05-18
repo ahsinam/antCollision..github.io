@@ -41,6 +41,7 @@ class AntCollisionGame {
     this.dx = dx;
     this.dy = dy;
     this.mass = mass;
+    this.timer = null;
   }
 
   drawAnt = (x, y) => {
@@ -48,21 +49,24 @@ class AntCollisionGame {
     const oneAnt = document.createDocumentFragment();
     const antElement = document.createElement("img");
 
-    antElement.addEventListener("click", () => {
-      let reaminingAnts = antInstances.filter((ant) => {
-        ant.id !== antElement.id;
-      });
-      score++;
-      antInstances = reaminingAnts;
-      scoreElement.innerHTML = score;
-      antElement.remove();
-    });
-
     antElement.classList.add("ant");
     antElement.setAttribute("id", this.id);
     antElement.setAttribute("src", "./antImage.png");
     antElement.style.left = x + "px";
     antElement.style.top = y + "px";
+
+    antElement.addEventListener("click", () => {
+      let reaminingAnts = antInstances.filter((ant) => {
+        return ant.id !== this.id;
+      });
+      score++;
+      antInstances = reaminingAnts;
+      scoreElement.innerHTML = score;
+      antElement.remove();
+      if (this.timer) {
+        clearInterval(this.timer);
+      }
+    });
     oneAnt.appendChild(antElement);
     mainContainer.appendChild(oneAnt);
   };
@@ -135,7 +139,7 @@ class AntCollisionGame {
 
   init = () => {
     this.drawAnt(this.x, this.y);
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.moveAnt();
     }, 1000);
   };
@@ -163,32 +167,3 @@ for (i = 0; i < 20; i++) {
   antInstances.push(ant);
   ant.init();
 }
-
-// const antPos = document.querySelectorAll(".ant");
-// const removeAnt = (ant) => {
-//   const remainingAnts = antInstances.filter((item, index) => {
-//     score = score + 1;
-//     // console.log(score);
-//     return ant.id !== index;
-//   });
-//   //   console.log(antInstances);
-//   antInstances = remainingAnts;
-// };
-
-// for (var i = 0; i < antPos.length; i++) {
-//   antPos[i].addEventListener("click", bindClick(i));
-// }
-// mainContainer.addEventListener("click", (event) => {
-//   console.log(event.x, event.y);
-//   let x = event.x;
-//   let y = event.y;
-//   x = x - mainContainer.offsetLeft;
-//   y = y - mainContainer.offsetTop;
-//   console.log(x, y);
-
-//   antInstances.forEach((ant) => {
-//     if (getDistance(x, y, ant.x, ant.y) <= 40) {
-//       removeAnt(ant);
-//     }
-//   });
-// });
