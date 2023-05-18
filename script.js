@@ -54,6 +54,12 @@ class AntCollisionGame {
     antElement.setAttribute("src", "./antImage.png");
     antElement.style.left = x + "px";
     antElement.style.top = y + "px";
+    let transform = "";
+    transform = this.dx > 0 ? "rotateY(180deg)" : "rotateY(0deg)";
+
+    transform += this.dy < 0 ? " rotateZ(90deg)" : " rotateZ(0deg)";
+
+    antElement.style.transform = transform;
 
     antElement.addEventListener("click", () => {
       let reaminingAnts = antInstances.filter((ant) => {
@@ -141,7 +147,7 @@ class AntCollisionGame {
     this.drawAnt(this.x, this.y);
     this.timer = setInterval(() => {
       this.moveAnt();
-    }, 1000);
+    }, 100);
   };
 }
 
