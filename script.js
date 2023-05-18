@@ -1,3 +1,6 @@
+const mainContainer = document.getElementById("container");
+const scoreElement = document.getElementById("score");
+
 const gerenateRandomNumber = (maxLimit = 400) => {
   let xRandom = Math.floor(Math.random() * maxLimit);
   let yRandom = Math.floor(Math.random() * maxLimit);
@@ -24,6 +27,11 @@ const getDistance = (x1, y1, x2, y2) => {
 };
 
 let antInstances = [];
+let score = 0;
+
+mainContainer.addEventListener("mouseover", (event) => {
+  mainContainer.style.cursor = "pointer";
+});
 
 class AntCollisionGame {
   constructor(id, x, y, dx, dy, mass) {
@@ -39,6 +47,17 @@ class AntCollisionGame {
     const mainContainer = document.getElementById("container");
     const oneAnt = document.createDocumentFragment();
     const antElement = document.createElement("img");
+
+    antElement.addEventListener("click", () => {
+      let reaminingAnts = antInstances.filter((ant) => {
+        ant.id !== antElement.id;
+      });
+      score++;
+      antInstances = reaminingAnts;
+      scoreElement.innerHTML = score;
+      antElement.remove();
+    });
+
     antElement.classList.add("ant");
     antElement.setAttribute("id", this.id);
     antElement.setAttribute("src", "./antImage.png");
@@ -104,7 +123,6 @@ class AntCollisionGame {
     antInstances.forEach((ant) => {
       if (this.id !== ant.id) {
         if (getDistance(this.x, this.y, ant.x, ant.y) <= 40) {
-          console.log(getDistance(this.x, this.y, ant.x, ant.y) <= 40);
           this.resolveCollision(this, ant);
         }
       }
@@ -119,7 +137,7 @@ class AntCollisionGame {
     this.drawAnt(this.x, this.y);
     setInterval(() => {
       this.moveAnt();
-    }, 100);
+    }, 1000);
   };
 }
 
@@ -145,3 +163,32 @@ for (i = 0; i < 20; i++) {
   antInstances.push(ant);
   ant.init();
 }
+
+// const antPos = document.querySelectorAll(".ant");
+// const removeAnt = (ant) => {
+//   const remainingAnts = antInstances.filter((item, index) => {
+//     score = score + 1;
+//     // console.log(score);
+//     return ant.id !== index;
+//   });
+//   //   console.log(antInstances);
+//   antInstances = remainingAnts;
+// };
+
+// for (var i = 0; i < antPos.length; i++) {
+//   antPos[i].addEventListener("click", bindClick(i));
+// }
+// mainContainer.addEventListener("click", (event) => {
+//   console.log(event.x, event.y);
+//   let x = event.x;
+//   let y = event.y;
+//   x = x - mainContainer.offsetLeft;
+//   y = y - mainContainer.offsetTop;
+//   console.log(x, y);
+
+//   antInstances.forEach((ant) => {
+//     if (getDistance(x, y, ant.x, ant.y) <= 40) {
+//       removeAnt(ant);
+//     }
+//   });
+// });
